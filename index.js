@@ -17,12 +17,14 @@ app.use(bodyParser.json())
 
 const PORT = 8000
 
-app.get('/home', (req,res) =>{
+
+//get all quotes
+app.get('/allquotes', (req,res) =>{
     const wholeDataBase = db.get('notes').value()
     const pushtest = []
     pushtest.push(wholeDataBase)
     let randomizer = Math.floor(Math.random() * 4)
-    res.json(pushtest[0][randomizer])
+    res.status(200).json(pushtest[0])
 })
 
 //get random quote
@@ -31,7 +33,7 @@ app.get('/quote', (req,res) =>{
     const pushtest = []
     pushtest.push(wholeDataBase)
     let randomizer = Math.floor(Math.random() * 4)
-    res.json(pushtest[0][randomizer])
+    res.status(200).json(pushtest[0][randomizer])
 })
 
 
