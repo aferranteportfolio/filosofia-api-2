@@ -39,6 +39,11 @@ function postAQuoteToTheDb(quoteUpload){
     }).write()
 }
 
+function deleteAQuoteFromTheDbById(idProvided){
+    let inMemoryDb = db.get('notes')
+    inMemoryDb.remove({ id: idProvided }).write()
+}
+
 function dataBaseLength(dataBase){
     let dataBaseLength = dataBase.length
     return dataBaseLength - 1
@@ -62,8 +67,9 @@ function getQuoteByQuoteFromDataBase(quoteProvided) {
     return memoryStorageQuotesIds
 }
 
-function idIdentifier(id, response, goodStatus, badStatus) {
-    if (id !== undefined) {
+function idIdentifier(idObject, idProvided, response, goodStatus, badStatus) {
+    if (idObject !== undefined) {
+        deleteAQuoteFromTheDbById(idProvided)
         return response.sendStatus(goodStatus)
     }
     return response.sendStatus(badStatus)
@@ -136,7 +142,7 @@ app.delete('/quote/:id', (req, res) => {
     let quoteToBeDeletedByID = getQuoteByIDFromDataBase(idProvided)
     // a.- On success will return http status code 200
     // b.- On quote not found will return http status code 404
-    idIdentifier(quoteToBeDeletedByID, res, 200, 404)
+    idIdentifier(quoteToBeDeletedByID, idProvided, res, 200, 404)
 })
 
 
